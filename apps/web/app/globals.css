@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Escanear archivos de la app */
+
+/* Escanear archivos de la app - incluyendo safelist */
 @source "../**/*.{ts,tsx,js,jsx,mdx}";
 @source "./**/*.{ts,tsx,js,jsx,mdx}";
 
@@ -12,6 +13,7 @@
 @source "../../node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
 @source "../../../node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
 @source "./node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
+@source "../../../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
 
 @custom-variant dark (&:is(.dark *));
 

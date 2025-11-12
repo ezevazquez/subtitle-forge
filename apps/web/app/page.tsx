@@ -2,6 +2,8 @@
 
 import type React from "react"
 import { useState, useRef } from "react"
+// Importar safelist para forzar inclusion de clases Tailwind
+import { TailwindSafelist } from "./tailwind-safelist"
 import {
   Button,
   FileInput,
@@ -97,9 +99,11 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <Card className="shadow-lg">
+    <>
+      <TailwindSafelist />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="text-center text-3xl font-bold text-blue-600">SubtitleForge</CardTitle>
             <p className="text-center text-sm text-slate-600 mt-2">Convierte y traduce subtítulos de YouTube</p>
@@ -151,7 +155,8 @@ export default function Page() {
         <div className="mt-6 text-center text-sm text-slate-600">
           <p>Powered by deepseek-chat-v3.1 + OpenRouter</p>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
