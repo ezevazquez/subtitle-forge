@@ -2,22 +2,39 @@ import { type NextRequest, NextResponse } from "next/server"
 import { parseTranscriptToBlocks, convertBlocksToSrt } from "@subtitleforge/utils"
 import { translateText } from "@/lib/openrouter"
 
-// Headers CORS para permitir peticiones desde el frontend
-const corsHeaders = {
-  "Access-Control-Allow-Origin": process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+// Función para obtener headers CORS dinámicos
+function getCorsHeaders(request: NextRequest) {
+  const origin = request.headers.get("origin")
+  const allowedOrigins = [
+    process.env.NEXT_PUBLIC_WEB_URL,
+    "http://localhost:3000",
+  ].filter(Boolean)
+
+  // Permitir el origen si está en la lista o si es un dominio vercel.app
+  const isAllowed =
+    origin &&
+    (allowedOrigins.some((allowed) => origin === allowed) ||
+      origin.includes("vercel.app"))
+
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin : allowedOrigins[0] || "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Credentials": "true",
+  }
 }
 
 // Manejar preflight requests
-export async function OPTIONS() {
+export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
     status: 200,
-    headers: corsHeaders,
+    headers: getCorsHeaders(request),
   })
 }
 
 export async function POST(request: NextRequest) {
+  const corsHeaders = getCorsHeaders(request)
+  
   try {
     const contentType = request.headers.get("content-type")
     if (!contentType?.includes("multipart/form-data")) {

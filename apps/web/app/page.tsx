@@ -62,8 +62,15 @@ export default function Page() {
       })
 
       if (!response.ok) {
-        const errorText = await response.text()
-        throw new Error(errorText || "Error al procesar el archivo")
+        let errorMessage = "Error al procesar el archivo"
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          const errorText = await response.text()
+          errorMessage = errorText || errorMessage
+        }
+        throw new Error(errorMessage)
       }
 
       const blob = await response.blob()
