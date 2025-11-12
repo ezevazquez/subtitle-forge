@@ -1,19 +1,17 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-
-
-/* Escanear archivos de la app - incluyendo safelist */
+/* 
+ * Configuración de contenido para Tailwind v4
+ * IMPORTANTE: @source debe ir ANTES de @import en Tailwind v4
+ */
+@source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
 @source "../**/*.{ts,tsx,js,jsx,mdx}";
 @source "./**/*.{ts,tsx,js,jsx,mdx}";
-
-/* Escanear paquete UI - rutas relativas desde apps/web */
-@source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
-
-/* Escanear paquete UI - desde node_modules (producción) */
-@source "../../node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
-@source "../../../node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
-@source "./node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
 @source "../../../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
+@source "../../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
+@source "../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
+@source "./**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
+
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
