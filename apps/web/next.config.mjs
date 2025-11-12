@@ -11,6 +11,16 @@ const nextConfig = {
     unoptimized: true,
   },
   transpilePackages: ['@subtitleforge/ui'],
+  // Logging para debug en producción
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+  // Asegurar que PostCSS se ejecute correctamente
+  experimental: {
+    optimizePackageImports: ['@subtitleforge/ui'],
+  },
 };
 
 export default nextConfig;

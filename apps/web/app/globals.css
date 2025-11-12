@@ -1,14 +1,13 @@
 /* 
  * Configuración de contenido para Tailwind v4
  * IMPORTANTE: @source debe ir ANTES de @import en Tailwind v4
+ * 
+ * En producción (Vercel), las rutas relativas pueden no funcionar.
+ * El safelist en tailwind-safelist.tsx asegura que las clases se incluyan.
  */
-@source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
 @source "../**/*.{ts,tsx,js,jsx,mdx}";
 @source "./**/*.{ts,tsx,js,jsx,mdx}";
-@source "../../../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
-@source "../../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
-@source "../**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
-@source "./**/node_modules/@subtitleforge/ui/**/*.{ts,tsx,js,jsx}";
+@source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
 
 @import "tailwindcss";
 @import "tw-animate-css";
