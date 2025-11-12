@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { parseTranscriptToBlocks, convertBlocksToSrt } from "@subtitleforge/utils"
-import { translateText } from "@/lib/openrouter"
+import { translateText, cleanTranslatedText } from "@/lib/openrouter"
 
 // Función para obtener headers CORS dinámicos
 function getCorsHeaders(request: NextRequest) {
@@ -80,7 +80,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Error al traducir el contenido" }, { status: 500, headers: corsHeaders })
     }
 
-    const translatedTexts = translatedText.split("---SEPARATOR---").map((t) => t.trim())
+    // Dividir y limpiar cada texto traducido individualmente
+    const translatedTexts = translatedText
+      .split("---SEPARATOR---")
+      .map((t) => cleanTranslatedText(t.trim()))
 
     if (translatedTexts.length !== blocks.length) {
       console.warn(

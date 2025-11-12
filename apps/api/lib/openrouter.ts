@@ -9,6 +9,38 @@ export const openrouter = new OpenAI({
   },
 })
 
+/**
+ * Limpia el texto traducido eliminando caracteres problemáticos:
+ * - Barras invertidas \ residuales
+ * - Caracteres } al final
+ * - Líneas vacías o con solo escapes
+ * - Normaliza saltos de línea
+ */
+export function cleanTranslatedText(text: string): string {
+  if (!text) return text
+
+  // Eliminar caracteres } al final
+  let cleaned = text.replace(/}+$/, "")
+
+  // Dividir en líneas y limpiar cada una
+  const lines = cleaned.split("\n").map((line) => {
+    // Trim cada línea
+    let cleanedLine = line.trim()
+    // Eliminar todas las barras invertidas residuales (el modelo a veces las agrega incorrectamente)
+    cleanedLine = cleanedLine.replace(/\\/g, "")
+    return cleanedLine
+  })
+
+  // Filtrar líneas vacías (líneas fantasma que rompen el alineamiento)
+  const filteredLines = lines.filter((line) => line.length > 0)
+
+  // Unir las líneas limpias
+  cleaned = filteredLines.join("\n")
+
+  // Trim final
+  return cleaned.trim()
+}
+
 export async function translateText(text: string, targetLanguage: string): Promise<string> {
   const languageNames: Record<string, string> = {
     es: "español",
@@ -32,7 +64,7 @@ export async function translateText(text: string, targetLanguage: string): Promi
     messages: [
       {
         role: "user",
-        content: `Traduce el siguiente texto al ${targetLangName}. Mantén saltos de línea intactos. No modifiques tiempos ni estructura. Solo devuelve el texto traducido sin explicaciones adicionales:
+        content: `Traduce el siguiente texto al idioma ${targetLangName}. NO detectes automáticamente el idioma. Traduce EXACTAMENTE al ${targetLangName}. Mantén saltos de línea intactos. No modifiques tiempos ni estructura. Solo devuelve el texto traducido sin explicaciones adicionales, sin barras invertidas, sin caracteres JSON, sin formato adicional:
 
 ${text}`,
       },
@@ -44,5 +76,6 @@ ${text}`,
     throw new Error("No se recibió contenido de la API")
   }
 
-  return content.trim()
+  // Aplicar limpieza antes de retornar
+  return cleanTranslatedText(content)
 }
