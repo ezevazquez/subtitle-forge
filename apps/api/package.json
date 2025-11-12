@@ -1,0 +1,25 @@
+{
+  "name": "@subtitleforge/api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SubtitleForge API Backend",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@subtitleforge/utils": "workspace:*",
+    "openai": "^4.47.1",
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
